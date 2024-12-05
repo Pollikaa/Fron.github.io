@@ -1,0 +1,69 @@
+body {
+    background: url('Las\ Vegas-2.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.title {
+    font-size: 2.5rem;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+.subtitle {
+    font-size: 1.2rem;
+    color: #FFF;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 50%;
+    margin: 0 auto;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.7);
+}
+.game-square {
+    background: linear-gradient(45deg, #FFD700, #ff9307);
+    border: 1px solid #FFF;
+    border-radius: 12px;
+    font-size: 22px;
+    color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 130px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+.game-square:hover {
+    background: linear-gradient(45deg, #FFC107, #FF5722);
+    color: #FFF;
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.8);
+}
+@media (max-width: 768px) {
+    .menu {
+        width: 90%;
+    }
+
+    .game-square {
+        font-size: 20px;
+        height: 110px;
+    }
+}
+@media (max-width: 480px) {
+    .game-square {
+        font-size: 18px;
+        height: 100px;
+    }
+}

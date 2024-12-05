@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="icon1.png" type="image/png">
+    <link rel="shortcut icon" href="icon1.png" type="image/png">
+    <title>Game2</title>
+    <style>
+        body {
+            text-align: center;
+            background-image: url('casino.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #c8c7c7;
+            font-size: 18px;
+        }
+        .game-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #073f21c4;
+            border-radius: 10px;
+            box-shadow: 4px 4px 8px rgba(204, 17, 17, 0.585);
+            width: 80%;
+            max-width: 500px;
+            transition: all 0.3s ease;
+        }
+        .players {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            width: 100%;
+            font-size: 22px;
+        }
+        .player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card {
+            width: 80px;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #generate-btn {
+            padding: 15px 30px;
+            background-color: #b83e05;
+            color: #c8c7c7;
+            font-size: 20px;
+            border: none;
+            cursor: pointer;
+            margin: 30px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        #generate-btn:hover {
+            background-color: #8d2f04;
+        }
+        .round-info {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #c8c7c7;
+        }
+        @media (max-width: 600px) {
+            .players {
+                flex-direction: column;
+            }
+
+            .player {
+                margin-bottom: 20px;
+            }
+            #generate-btn {
+                width: 100%;
+            }
+            .game-wrapper {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-wrapper" id="game-container">
+        <h1>Гра: «21»</h1>
+        <div id="player-info">
+            <input type="text" id="username" placeholder="Введіть своє ім'я">
+            <button onclick="startGame()">Почати гру</button>
+        </div>
+        <div id="game-area" style="display:none;">
+            <div class="players">
+                <div class="player">
+                    <div id="user-name">Гравець</div>
+                    <div class="card" id="user-card"></div>
+                    <div id="user-score" class="score">0</div>
+                </div>
+                <button id="generate-btn" onclick="generateScores()">Згенерувати</button>
+                <div class="player">
+                    <div>Комп'ютер</div>
+                    <div class="card" id="computer-card"></div>
+                    <div id="computer-score" class="score">0</div>
+                </div>
+            </div>
+            <div class="round-info" id="round-info"></div>
+        </div>
+    </div>
+
+    <script>
+        let userScore = 0;
+        let computerScore = 0;
+        let roundNumber = 1;
+        let username = "";
+        const cardImages = {
+            6: "6.png",
+            7: "7.png",
+            8: "8.png",
+            9: "9.png",
+            10: "10.png",
+            "Валет": "valet.png",
+            "Дама": "dama.png",
+            "Король": "korol.png",
+            "Туз": "tuz.png"
+        };
+        const cardValues = {
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+            10: 10,
+            "Валет": 2,
+            "Дама": 3,
+            "Король": 4,
+            "Туз": 11
+        };
+
+        function startGame() {
+            username = document.getElementById('username').value.trim();
+            if (username === "") {
+                alert("Будь ласка, введіть своє ім'я.");
+                return;
+            }
+            document.getElementById('user-name').textContent = username;
+            document.getElementById('player-info').style.display = 'none';
+            document.getElementById('game-area').style.display = 'block';
+        }
+
+        function generateScores() {
+            if (roundNumber > 3) return;
+            const userCard = getRandomCard();
+            const computerCard = getRandomCard();
+            document.getElementById('user-card').style.backgroundImage = `url(${cardImages[userCard]})`;
+            document.getElementById('computer-card').style.backgroundImage = `url(${cardImages[computerCard]})`;
+            userScore += cardValues[userCard];
+            computerScore += cardValues[computerCard];
+            document.getElementById('user-score').textContent = userScore;
+            document.getElementById('computer-score').textContent = computerScore;
+            document.getElementById('round-info').textContent = `Раунд ${roundNumber}`;
+            roundNumber++;
+            if (roundNumber > 3) {
+                setTimeout(() => {
+                    const finalMessage = userScore > computerScore
+                        ? `${username} перемогла(-міг) у грі!`
+                        : "Комп'ютер переміг у грі!";
+                    alert(finalMessage);
+                    location.reload();
+                }, 1000);
+            }
+        }
+
+        function getRandomCard() {
+            const cards = Object.keys(cardValues);
+            const randomIndex = Math.floor(Math.random() * cards.length);
+            return cards[randomIndex];
+        }
+    </script>
+</body>
+
+</html>
